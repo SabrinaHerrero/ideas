@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+var xmlhttp;
+function loadXMLDoc(url,cfunc)
+{
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=cfunc;
+xmlhttp.open("GET",url,true);
+xmlhttp.send();
+}
+function myFunction()
+{
+loadXMLDoc("/app/path/meetings/",function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("body").innerHTML=xmlhttp.responseText;
+    }
+  });
+}
+</script>
+<style>
+	a{
+		color: blue;
+		}
+		table{
+		text-align:center;
+		}
+</style>
+</head>
+
+<body id="body">
+	<h1>Welcome to OpenStack Solum Meeting Analytics</h1>
+	 <h2>Click <a onclick="myFunction()" href="#">here</a> to see number of meetings for Solum OpenStack project</h2>
+</body>
+<body>
