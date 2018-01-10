@@ -45,6 +45,7 @@ public class DBLoader {
 			tx = session.beginTransaction();
 			session.save(newDate);
 		    dateId = newDate.getId();
+		    System.out.println("The new id is: "+ newDate.getId());
 		    tx.commit();
 		} catch (Exception e) {
 			if (tx != null) {
@@ -68,15 +69,6 @@ public class DBLoader {
 			}
 		}
 		return true;
-	}
-	protected boolean invalidYear(int year){
-		
-		if(year > 2017 || year < 2010 ) {
-			return true;
-		}
-		
-		return false;
-		
 	}
 //	public Meeting updateMeeting(Long meetingId, Meeting meeting, Long projId) throws Exception {
 //		Session session = sessionFactory.openSession();

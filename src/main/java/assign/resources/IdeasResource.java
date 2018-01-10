@@ -15,7 +15,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -39,10 +41,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 
 import assign.domain.Date;
 import assign.services.DBLoader;
-import javassist.bytecode.analysis.ControlFlow.Node;
 
 @Path("/")
 public class IdeasResource {
@@ -165,7 +167,7 @@ public class IdeasResource {
 			jaxb.printStackTrace();
 			throw new WebApplicationException();
 		}
-	}*/
+	}
 	
 //	protected void outputProjects(OutputStream os, Project project) throws IOException {
 //		try { 
@@ -195,15 +197,56 @@ public class IdeasResource {
 	*/
 	protected Date readNewDate(InputStream is) {
 	      try {
-	         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-	         Document doc = builder.parse(is);
-	         Element root = doc.getDocumentElement();
-	         Date date = new Date();
-	         NodeList nodes = root.getChildNodes();
-	         System.out.println(nodes.item(0).getTextContent());
-	         for (int i = 0; i < nodes.getLength(); i++) {
-	            Element element = (Element) nodes.item(i);
-	            System.out.println(element.getTagName());
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			Document doc = builder.parse(is);
+			Element root = doc.getDocumentElement();
+			Date date = new Date();
+			
+			Queue<Element> q = new LinkedList<Element>();
+	 		q.add(root);
+	 		
+	 		while(!q.isEmpty()) {
+	 			Element e = (Element) q.remove();			
+		 		if (e.getTagName().equals("title")) {
+	            		date.setTitle(e.getTextContent());
+	            		String nodeValue = e.getTextContent();
+		 		    	System.out.println("Node value:" + nodeValue);
+	            }
+	            else if (e.getTagName().equals("description")) {
+	               date.setDateDescription(e.getTextContent());
+	               String nodeValue = e.getTextContent();
+	               System.out.println("Node value:" + nodeValue);
+	            }
+	            else if (e.getTagName().equals("completed")) {
+	            		if(e.getTextContent().toLowerCase().equals("true"))
+	            			date.setCompleted(true);
+	            		else if (e.getTextContent().toLowerCase().equals("false"))
+	            			date.setCompleted(false);
+	            		else 
+	            			throw new WebApplicationException();
+	            		String nodeValue = e.getTextContent();
+		 		    	System.out.println("Node value:" + nodeValue);
+	            }
+	            else if(e.getTagName().equals("fecha")) {
+	            		date.setDate(e.getTextContent());
+	            		String nodeValue = e.getTextContent();
+		 		    	System.out.println("Node value:" + nodeValue);
+	            }
+	 			
+	 			NodeList nodes = e.getChildNodes();
+	 			for(int i=0; i<nodes.getLength(); i++) {
+	 				Node node = nodes.item(i);
+	 				if(node instanceof Element) {
+	 					q.add((Element) node);
+	 				}
+	 			}
+	 		}
+	 		
+//	         for (int i = 0; i < nodes.getLength(); i++) {
+//	        	 	Node n = nodes.item(i);
+//	        	 	if(n )
+//		        Element element = (Element) n;
+//	            System.out.println(element.getTagName());
 //	            if (element.getName()  .getTagName().equals("title")) {
 //	            		date.setTitle(element.getTextContent());
 //	            }
@@ -221,7 +264,7 @@ public class IdeasResource {
 //	            else if(element.getTagName().equals("fecha")) {
 //	            		date.setDate(element.getTextContent());
 //	            }
-	         }
+	         //}
 	         return date;
 	      }
 	      catch (Exception e) {
