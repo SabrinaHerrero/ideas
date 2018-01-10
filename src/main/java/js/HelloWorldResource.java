@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-@Path("/b")
+@Path("/")
 public class HelloWorldResource {
 	
 	public HelloWorldResource() {
@@ -28,7 +28,7 @@ public class HelloWorldResource {
 	@Path("/yo")
 	@Produces("text/html")
 	public String hello() {
-		return "Yo";
+		return "Yo yo yo";
 	}
 	
 	@GET
