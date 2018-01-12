@@ -273,4 +273,19 @@ public class DBLoader {
 //        session.close();
 //	}
 
+		public void deleteDate(Long id) throws Exception {
+		
+		Session session = sessionFactory.openSession();		
+		session.beginTransaction();
+		//create query
+		String query = "from Ideas date where date.id = :id";		
+		
+		Date date = (Date)session.createQuery(query).setParameter("id", id).list().get(0);
+		
+       session.delete(date);
+
+       session.getTransaction().commit();
+       session.close();
+	}
+
 }
