@@ -160,13 +160,13 @@ public class IdeasResource {
 	@DELETE
 	@Path("/ideas/{id}")
 	public Response deleteDate(@PathParam("id") Long id) throws Exception {
-		Date date = loader.getDate(id);
-	      if(date == null) {
-	    	  	return Response.status(404).build();
-	      } else {
+		//Date date = loader.getDate(id);
+//	      if(date == null) {
+//	    	  	return Response.status(404).build();
+//	      } else {
 	    	  	loader.deleteDate(id);
 	    	  	return Response.status(200).build();
-	      }
+//	      }
 	}
 	/*protected void outputProjects(OutputStream os, Projects projects) throws IOException {
 		try { 

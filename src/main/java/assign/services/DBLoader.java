@@ -278,7 +278,7 @@ public class DBLoader {
 		Session session = sessionFactory.openSession();		
 		session.beginTransaction();
 		//create query
-		String query = "from Ideas date where date.id = :id";		
+		String query = "from Date date where date.id = :id";		
 		
 		Date date = (Date)session.createQuery(query).setParameter("id", id).list().get(0);
 		
