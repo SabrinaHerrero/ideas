@@ -55,14 +55,27 @@ public class IdeasResource {
 		this.loader = new DBLoader();		
 	}
 	
-	
-	
-	
 	@GET
 	@Path("/helloworld")
 	@Produces("text/html")
 	public String helloWorld() {
 		return "Hello world";	
+	}	
+	
+	@GET
+	@Path("dates/all")
+	@Produces("text/html")
+	public String allDates() {
+		String list = "";
+		List<Date> all = loader.getAllDates();
+		if (all == null){
+			return "no entries";
+		} else {
+			for(int i = 0; i < all.size(); i++) {
+				list += all.get(i).getTitle() + "\n";
+			}
+			return list; 
+		}
 	}	
 	/*
 	@GET
@@ -88,7 +101,7 @@ public class IdeasResource {
 		return meetings;
 	}*/
 	@POST
-	@Path("/date")
+	@Path("/dates")
 	@Consumes("application/xml")
 	public Response createProject(InputStream is) throws Exception {
 		Date newDate = readNewDate(is);
@@ -99,24 +112,8 @@ public class IdeasResource {
 		  	return Response.created(URI.create("/dates/"+ newDate.getId())).build();
 		}
 	}
-/*
-	@POST
-	@Path("/projects/{id}/meetings")
-	@Consumes("application/xml")
-	public Response createMeeting(@PathParam("id") Long id, InputStream is) throws Exception {
-		Project project = loader.getProject(id);
-		if(project == null) {
-			return Response.status(404).build();
-		}
-		Meeting newMeeting = readNewMeeting(is, project); 
-		Long meetingID = loader.addMeeting(newMeeting);
-		if(meetingID == null) {
-			return Response.status(400).build();
-		} else {
-		  	return Response.created(URI.create("/projects/"+ project.getId() + "/meetings/m" + newMeeting.getId())).build();
-		}
-	}
-	@PUT
+
+/*	@PUT
 	@Path("/projects/{projId}/meetings/{meetingId}")
 	@Consumes("application/xml")
 	public Response editMeeting(@PathParam("projId") Long projId, @PathParam("meetingId") String id, InputStream is) throws Exception {
@@ -145,68 +142,20 @@ public class IdeasResource {
 	    	  	return Response.status(200).build();
 	      }
 	}
+*/	
 	@DELETE
-	@Path("/projects/{id}")
-	public Response deleteProject(@PathParam("id") Long id) throws Exception {
-		Project project = loader.getProject(id);
-	      if(project == null) {
+	@Path("/dates/{id}")
+	public Response deleteDate(@PathParam("id") Long id) throws Exception {
+		Date date = loader.getDateById(id);
+	      if(date == null) {
 	    	  	return Response.status(404).build();
 	      } else {
-	    	  	loader.deleteProject(id);
-	    	  	return Response.status(200).build();
-	      }
-	}*/
-
-	@DELETE
-	@Path("/ideas/{id}")
-	public Response deleteDate(@PathParam("id") Long id) throws Exception {
-		//Date date = loader.getDate(id);
-//	      if(date == null) {
-//	    	  	return Response.status(404).build();
-//	      } else {
 	    	  	loader.deleteDate(id);
 	    	  	return Response.status(200).build();
-//	      }
-	}
-	/*protected void outputProjects(OutputStream os, Projects projects) throws IOException {
-		try { 
-			JAXBContext jaxbContext = JAXBContext.newInstance(Projects.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-	 
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(projects, os);
-		} catch (JAXBException jaxb) {
-			jaxb.printStackTrace();
-			throw new WebApplicationException();
-		}
+	      }
 	}
 	
-//	protected void outputProjects(OutputStream os, Project project) throws IOException {
-//		try { 
-//			JAXBContext jaxbContext = JAXBContext.newInstance(Project.class);
-//			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-//	 
-//			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-//			jaxbMarshaller.marshal(project, os);
-//		} catch (JAXBException jaxb) {
-//			jaxb.printStackTrace();
-//			throw new WebApplicationException();
-//		}
-//	}
-//	
-	/*protected void outputProjects(OutputStream os, NotFound notFound) throws IOException {
-		try { 
-			JAXBContext jaxbContext = JAXBContext.newInstance(NotFound.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-	 
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(notFound, os);
-		} catch (JAXBException jaxb) {
-			jaxb.printStackTrace();
-			throw new WebApplicationException();
-		}
-	}	
-	*/
+	//parses xml and stores data in a new Date object
 	protected Date readNewDate(InputStream is) {
 	      try {
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -253,30 +202,6 @@ public class IdeasResource {
 	 				}
 	 			}
 	 		}
-	 		
-//	         for (int i = 0; i < nodes.getLength(); i++) {
-//	        	 	Node n = nodes.item(i);
-//	        	 	if(n )
-//		        Element element = (Element) n;
-//	            System.out.println(element.getTagName());
-//	            if (element.getName()  .getTagName().equals("title")) {
-//	            		date.setTitle(element.getTextContent());
-//	            }
-//	            else if (element.getTagName().equals("description")) {
-//	               date.setDateDescription(element.getTextContent());
-//	            }
-//	            else if (element.getTagName().equals("completed")) {
-//	            		if(element.getTextContent().toLowerCase().equals("true"))
-//	            			date.setCompleted(true);
-//	            		else if (element.getTextContent().toLowerCase().equals("false"))
-//	            			date.setCompleted(false);
-//	            		else 
-//	            			throw new WebApplicationException();
-//	            }
-//	            else if(element.getTagName().equals("fecha")) {
-//	            		date.setDate(element.getTextContent());
-//	            }
-	         //}
 	         return date;
 	      }
 	      catch (Exception e) {
