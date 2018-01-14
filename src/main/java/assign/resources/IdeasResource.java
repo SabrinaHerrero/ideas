@@ -77,6 +77,37 @@ public class IdeasResource {
 			return list; 
 		}
 	}	
+	
+	@GET
+	@Path("dates/complete")
+	@Produces("text/html")
+	public String allCompleted() {
+		String list = "";
+		List<Date> all = loader.getByCompletion(true);
+		if (all == null){
+			return "no entries";
+		} else {
+			for(int i = 0; i < all.size(); i++) {
+				list += loader.newTableEntry(all.get(i), i);
+			}
+			return list; 
+		}
+	}
+	@GET
+	@Path("dates/incomplete")
+	@Produces("text/html")
+	public String allIncomplete() {
+		String list = "";
+		List<Date> all = loader.getByCompletion(false);
+		if (all == null){
+			return "no entries";
+		} else {
+			for(int i = 0; i < all.size(); i++) {
+				list += loader.newTableEntry(all.get(i), i);
+			}
+			return list; 
+		}
+	}
 	/*
 	@GET
 	@Path("/projects/{id}")
