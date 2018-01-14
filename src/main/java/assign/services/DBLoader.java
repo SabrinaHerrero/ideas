@@ -1,5 +1,6 @@
 package assign.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -228,22 +229,31 @@ public class DBLoader {
 //		}
 //	}
 //	
-//	public Date getProject(Long id) throws Exception {
-//		Session session = sessionFactory.openSession();
-//		
-//		session.beginTransaction();
-//		
-//		Criteria criteria = session.createCriteria(Date.class).
-//        		add(Restrictions.eq("id", id));
-//		
-//		List<Date> projects = criteria.list();
-//		
-//		if (projects.size() > 0) {
-//			return projects.get(0);	
-//		} else {
-//			return null;
-//		}
-//	}
+	public List<Date> getAllDates(){    
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		List<Date> list = new ArrayList<Date>();
+		list = session.createQuery("from Date").list();
+		return list;	    
+	}
+	
+	
+	public Date getDateById(Long id) throws Exception {
+		Session session = sessionFactory.openSession();
+		
+		session.beginTransaction();
+		
+		Criteria criteria = session.createCriteria(Date.class).
+        		add(Restrictions.eq("id", id));
+		
+		List<Date> dates = criteria.list();
+		
+		if (dates.size() > 0) {
+			return dates.get(0);	
+		} else {
+			return null;
+		}
+	}
 //
 //	public void deleteMeeting(String title) throws Exception {
 //		

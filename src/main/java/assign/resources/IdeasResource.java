@@ -64,6 +64,22 @@ public class IdeasResource {
 	public String helloWorld() {
 		return "Hello world";	
 	}	
+	
+	@GET
+	@Path("dates/all")
+	@Produces("text/html")
+	public String allDates() {
+		String list = "";
+		List<Date> all = loader.getAllDates();
+		if (all == null){
+			return "no entries";
+		} else {
+			for(int i = 0; i < all.size(); i++) {
+				list += all.get(i).getTitle() + "\n";
+			}
+			return list; 
+		}
+	}	
 	/*
 	@GET
 	@Path("/projects/{id}")
@@ -88,7 +104,7 @@ public class IdeasResource {
 		return meetings;
 	}*/
 	@POST
-	@Path("/date")
+	@Path("/dates")
 	@Consumes("application/xml")
 	public Response createProject(InputStream is) throws Exception {
 		Date newDate = readNewDate(is);
@@ -158,15 +174,15 @@ public class IdeasResource {
 	}*/
 
 	@DELETE
-	@Path("/ideas/{id}")
+	@Path("/dates/{id}")
 	public Response deleteDate(@PathParam("id") Long id) throws Exception {
-		//Date date = loader.getDate(id);
-//	      if(date == null) {
-//	    	  	return Response.status(404).build();
-//	      } else {
+		Date date = loader.getDateById(id);
+	      if(date == null) {
+	    	  	return Response.status(404).build();
+	      } else {
 	    	  	loader.deleteDate(id);
 	    	  	return Response.status(200).build();
-//	      }
+	      }
 	}
 	/*protected void outputProjects(OutputStream os, Projects projects) throws IOException {
 		try { 
@@ -253,30 +269,6 @@ public class IdeasResource {
 	 				}
 	 			}
 	 		}
-	 		
-//	         for (int i = 0; i < nodes.getLength(); i++) {
-//	        	 	Node n = nodes.item(i);
-//	        	 	if(n )
-//		        Element element = (Element) n;
-//	            System.out.println(element.getTagName());
-//	            if (element.getName()  .getTagName().equals("title")) {
-//	            		date.setTitle(element.getTextContent());
-//	            }
-//	            else if (element.getTagName().equals("description")) {
-//	               date.setDateDescription(element.getTextContent());
-//	            }
-//	            else if (element.getTagName().equals("completed")) {
-//	            		if(element.getTextContent().toLowerCase().equals("true"))
-//	            			date.setCompleted(true);
-//	            		else if (element.getTextContent().toLowerCase().equals("false"))
-//	            			date.setCompleted(false);
-//	            		else 
-//	            			throw new WebApplicationException();
-//	            }
-//	            else if(element.getTagName().equals("fecha")) {
-//	            		date.setDate(element.getTextContent());
-//	            }
-	         //}
 	         return date;
 	      }
 	      catch (Exception e) {
