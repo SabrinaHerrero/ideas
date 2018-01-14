@@ -1,5 +1,6 @@
 package assign.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -151,7 +152,6 @@ public class DBLoader {
 			return null;
 		}
 	}
->>>>>>> Stashed changes
 
 		public void deleteDate(Long id) throws Exception {
 		
@@ -208,6 +208,7 @@ public class DBLoader {
 		public String newTableEntry(Date date, int index) {
 			StringBuilder sb = new StringBuilder();
 			String row = String.valueOf(index);
+			sb.append("<tr>");
 			sb.append("<th scope='row'>");
 			sb.append(row);
 			sb.append("</th>");
@@ -228,7 +229,9 @@ public class DBLoader {
 				sb.append("<a href='");
 				sb.append(src);
 				sb.append("'> Album</td>");
+				
 			}
+			sb.append("</tr>");
 			return sb.toString();
 		}
 
