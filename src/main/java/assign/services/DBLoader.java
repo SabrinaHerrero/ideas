@@ -287,5 +287,69 @@ public class DBLoader {
        session.getTransaction().commit();
        session.close();
 	}
+		
+		//reference for table code
+//		<table class="table table-bordered">
+//		  <thead>
+//		    <tr>
+//		      <th scope="col">#</th>
+//		      <th scope="col">First</th>
+//		      <th scope="col">Last</th>
+//		      <th scope="col">Handle</th>
+//		    </tr>
+//		  </thead>
+//		  <tbody>
+//		    <tr>
+//		      <th scope="row">1</th>
+//		      <td>Mark</td>
+//		      <td>Otto</td>
+//		      <td>@mdo</td>
+//		    </tr>
+//		    <tr>
+//		      <th scope="row">2</th>
+//		      <td>Jacob</td>
+//		      <td>Thornton</td>
+//		      <td>@fat</td>
+//		    </tr>
+//		    <tr>
+//		      <th scope="row">3</th>
+//		      <td colspan="2">Larry the Bird</td>
+//		      <td>@twitter</td>
+//		    </tr>
+//		  </tbody>
+//		</table>
+
+		/*
+		 * title
+		 * description
+		 * fecha
+		 * album 
+		 */
+		private String newTableEntry(Date date, int index) {
+			StringBuilder sb = new StringBuilder();
+			String row = String.valueOf(index);
+			sb.append("<th scope='row'>");
+			sb.append(row);
+			sb.append("</th>");
+			sb.append("<td>");
+			sb.append(date.getTitle());
+			sb.append("</td>");
+			sb.append("<td>");
+			sb.append(date.getDateDescription());
+			sb.append("</td>");
+			
+			//adds on the info for completed dates
+			if(date.getCompleted()) {
+				sb.append("<td>");
+				sb.append(date.getDate());
+				sb.append("</td>");
+				String src = "images/" + date.getTitle() + "/" +  date.getDate();
+				sb.append("<td>");
+				sb.append("<a href='");
+				sb.append(src);
+				sb.append("'> Album</td>");
+			}
+			return sb.toString();
+		}
 
 }
