@@ -328,6 +328,7 @@ public class DBLoader {
 		private String newTableEntry(Date date, int index) {
 			StringBuilder sb = new StringBuilder();
 			String row = String.valueOf(index);
+			sb.append("<tr>");
 			sb.append("<th scope='row'>");
 			sb.append(row);
 			sb.append("</th>");
@@ -349,6 +350,7 @@ public class DBLoader {
 				sb.append(src);
 				sb.append("'> Album</td>");
 			}
+			sb.append("</tr>");
 			return sb.toString();
 		}
 
