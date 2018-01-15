@@ -6,7 +6,7 @@
        
 	  <context-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>assign.resources.ProjectsApplication</param-value>
+            <param-value>assign.resources.IdeasApplication</param-value>
       </context-param>
       
       <servlet>

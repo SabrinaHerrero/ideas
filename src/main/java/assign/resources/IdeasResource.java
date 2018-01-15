@@ -10,11 +10,8 @@
 
 package assign.resources;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -31,10 +28,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -61,6 +54,11 @@ public class IdeasResource {
 	public String helloWorld() {
 		return "Hello world";	
 	}	
+	
+	@GET
+	@Path("/index.html")
+	public void doGet() {
+	}
 	
 	@GET
 	@Path("dates/all")
