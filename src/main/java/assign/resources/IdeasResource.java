@@ -1,6 +1,6 @@
 //use for input validation and response generation
 /*Perform following checks on the input data:
- * In the call to create a project (POST /projects), ensure that name and description are not empty (“”).
+ * In the call to create a project (POST /projects), ensure that name and description are not empty ().
  * In the call to update a project (PUT /projects), ensure that name and description are not empty.
  * If the input fails validation in any of the above cases, return HTTP 400 Bad Request response.
  * In the calls to GET a project, PUT a project and DELETE a project, 
@@ -64,23 +64,24 @@ public class IdeasResource {
 	@Path("dates/all")
 	@Produces("text/html")
 	public String allDates() {
-		String list = "";
+		String list = "<thead><tr><th scope='col'>#</th><th scope='col'>Title</th><th scope='col'>Description</th> <th scope='col'>Date</th> <th scope='col'>Album</th></tr></thead> <tbody id='completed-body'>";
 		List<Date> all = loader.getAllDates();
 		if (all == null){
 			return "no entries";
 		} else {
 			for(int i = 0; i < all.size(); i++) {
-				list += all.get(i).getTitle() + "\n";
+				list += loader.newTableEntry(all.get(i), i);
 			}
+			list += "</tbody>";
 			return list; 
 		}
 	}	
-	
+				
 	@GET
 	@Path("dates/complete")
 	@Produces("text/html")
 	public String allCompleted() {
-		String list = "";
+		String list = "<thead><tr><th scope='col'>#</th><th scope='col'>Title</th><th scope='col'>Description</th> <th scope='col'>Date</th> <th scope='col'>Album</th></tr></thead> <tbody id='completed-body'>";
 		List<Date> all = loader.getByCompletion(true);
 		if (all == null){
 			return "no entries";
@@ -88,6 +89,7 @@ public class IdeasResource {
 			for(int i = 0; i < all.size(); i++) {
 				list += loader.newTableEntry(all.get(i), i);
 			}
+			list += "</tbody>";
 			return list; 
 		}
 	}
@@ -95,7 +97,7 @@ public class IdeasResource {
 	@Path("dates/incomplete")
 	@Produces("text/html")
 	public String allIncomplete() {
-		String list = "";
+		String list = "<thead><tr><th scope='col'>#</th><th scope='col'>Title</th><th scope='col'>Description</th></tr></thead>";
 		List<Date> all = loader.getByCompletion(false);
 		if (all == null){
 			return "no entries";
@@ -103,6 +105,7 @@ public class IdeasResource {
 			for(int i = 0; i < all.size(); i++) {
 				list += loader.newTableEntry(all.get(i), i);
 			}
+			list += "</tbody>";
 			return list; 
 		}
 	}

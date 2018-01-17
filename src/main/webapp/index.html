@@ -26,36 +26,36 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
         crossorigin="anonymous"></script>
 
-    </script>
+   
 
-    <script>
-
-        var xmlhttp;
-        //helper function for sending requests
-        function loadXMLDoc(url, cfunc) {
-            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp = new XMLHttpRequest();
-            }
-            else {// code for IE6, IE5
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            xmlhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    cfunc(this);
-                }
-            };
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-        }
-
-        $.when(
-            $.get("/ideas/dates/complete/", function (complete) {
-                document.getElementById("completed-body").innerHTML = complete;
-            }),
-            $.get("/ideas/dates/incomplete/", function (incomplete) {
-                document.getElementById("incomplete-body").innerHTML = incomplete;
-            })
-        )
+    <script src="ideas-script.js"></script>
+<script>
+//        var xmlhttp;
+//        //helper function for sending requests
+//        function loadXMLDoc(url, cfunc) {
+//            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+//                xmlhttp = new XMLHttpRequest();
+//            }
+//            else {// code for IE6, IE5
+//                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+//            }
+//            xmlhttp.onreadystatechange = function () {
+//                if (this.readyState == 4 && this.status == 200) {
+//                    cfunc(this);
+//                }
+//            };
+//            xmlhttp.open("GET", url, true);
+//            xmlhttp.send();
+//        }
+//
+//        $.when(
+//            $.get("/ideas/dates/complete/", function (complete) {
+//                document.getElementById("completed-body").innerHTML = complete;
+//            }),
+//            $.get("/ideas/dates/incomplete/", function (incomplete) {
+//                document.getElementById("incomplete-body").innerHTML = incomplete;
+//            })
+//        )
 
    /*      $(document).ready(function(){
         		loadXMLDoc("/ideas/dates/complete/",func1);
@@ -65,7 +65,9 @@
          */
 
 
+
     </script>
+
 
 </head>
 
@@ -74,40 +76,27 @@
         <h1>Our Ideas for Dates</h1>
         <div class="row">
             <div class="col-sm">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody id="incomplete-body">
-                        <!--                   will be populated by js -->
-                    </tbody>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label class="btn btn-secondary active">
+    <input type="radio" name="options" id="show-all" autocomplete="off" checked> All
+  </label>
+  <label class="btn btn-secondary">
+    <input type="radio" name="options" id="show-incomplete" autocomplete="off"> Incomplete
+  </label>
+  <label class="btn btn-secondary">
+    <input type="radio" name="options" id="show-complete" autocomplete="off"> Complete
+  </label>
+</div>
+                <div id= "table">
+                <table class="table table-bordered" id="table-dates">
+                  
                 </table>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Album</th>
-                        </tr>
-                    </thead>
-                    <tbody id="completed-body">
-                        <!--                   will be populated by js -->
-                    </tbody>
 
-                </table>
             </div>
         </div>
-    </div>
+    
 
     <!-- form to test POST -->
     <div class="container">
